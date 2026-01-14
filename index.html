@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RadioStars FM</title>
+
+<style>
+body {
+  margin: 0;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.radio-box {
+  background: linear-gradient(145deg, #050505, #1a1a1a);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 0 25px #00ffcc;
+  color: #00ffcc;
+}
+
+.radio-box h1 {
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px #00ffcc;
+}
+
+.status {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+button {
+  background: black;
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00ffcc;
+}
+
+button:hover {
+  background: #00ffcc;
+  color: #000;
+}
+
+.listeners {
+  margin-top: 15px;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="radio-box">
+  <h1>🎧 RadioStars FM</h1>
+  <div class="status" id="status">Loading...</div>
+
+  <button onclick="playRadio()">▶ PLAY</button>
+  <button onclick="stopRadio()">■ STOP</button>
+
+  <div class="listeners">
+    👥 Pendengar: <span id="listeners">10</span>
+  </div>
+</div>
+
+<audio id="radio" autoplay>
+  <source src="http://45.64.97.82:8114/stream" type="audio/mpeg">
+</audio>
+
+<script>
+const radio = document.getElementById("radio");
+const statusText = document.getElementById("status");
+const listenersText = document.getElementById("listeners");
+
+radio.onplaying = () => statusText.innerText = "🔴 LIVE Streaming";
+radio.onpause = () => statusText.innerText = "⏸ Paused";
+
+function playRadio() {
+  radio.play();
+}
+
+function stopRadio() {
+  radio.pause();
+  radio.currentTime = 0;
+  statusText.innerText = "⏹ Stopped";
+}
+
+let listeners = 10;
+setInterval(() => {
+  listeners += Math.floor(Math.random() * 5) - 2;
+  if (listeners < 10) listeners = 10;
+  listenersText.innerText = listeners;
+}, 4000);
+</script>
+
+</body>
+</html>
