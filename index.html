@@ -2,162 +2,95 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RadioStars FM</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
   margin:0;
-  min-height:100vh;
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  background:radial-gradient(circle at top, #061a2d, #000 70%);
+  background:radial-gradient(circle at top, #071b2e, #000);
   font-family:Arial, sans-serif;
   color:#fff;
 }
-
-.container{
-  text-align:center;
-  max-width:440px;
-  width:92%;
-}
-
-/* LOGO */
-.logo{
-  max-width:300px;
-  margin:0 auto 15px;
-}
-.logo img{
-  width:100%;
-  filter: drop-shadow(0 0 18px #ff0033);
-}
-
-/* SLOGAN */
-.slogan{
-  font-size:14px;
-  letter-spacing:1px;
-  color:#ccc;
-  margin-bottom:22px;
-}
-
-/* PLAYER BOX */
 .player{
-  background:linear-gradient(145deg,#071f38,#020a13);
-  border-radius:26px;
-  padding:22px 18px 18px;
-  box-shadow:
-    0 0 35px rgba(0,170,255,.45),
-    inset 0 0 22px rgba(0,0,0,.85);
+  background:#071b2e;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 0 30px rgba(0,180,255,.6);
+  text-align:center;
+  width:320px;
 }
-
-/* LIVE */
-.live{
-  display:inline-block;
-  background:#ff0033;
-  color:#fff;
-  font-size:12px;
-  padding:5px 12px;
-  border-radius:14px;
-  margin-bottom:12px;
-  box-shadow:0 0 12px #ff0033;
+.player img{
+  width:160px;
+  margin-bottom:15px;
 }
-
-/* INFO */
-.info{
-  font-size:13px;
-  color:#9adfff;
-  margin-bottom:10px;
+.status{
+  margin:10px 0;
+  color:#0ff;
 }
-
-/* IFRAME WRAP */
-.iframe-wrap{
-  margin:12px auto 10px;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 0 18px rgba(0,204,255,.6);
+button{
+  width:120px;
+  padding:12px;
+  margin:5px;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
 }
-
-/* EQUALIZER (VISUAL SAJA) */
-.equalizer{
-  display:flex;
-  justify-content:center;
-  gap:4px;
-  margin:14px 0 6px;
-}
-.equalizer span{
-  width:6px;
-  height:10px;
-  background:#00ccff;
-  border-radius:4px;
-  animation:bounce 1s infinite ease-in-out;
-}
-.equalizer span:nth-child(2){animation-delay:.1s}
-.equalizer span:nth-child(3){animation-delay:.2s}
-.equalizer span:nth-child(4){animation-delay:.3s}
-.equalizer span:nth-child(5){animation-delay:.4s}
-
-@keyframes bounce{
-  0%,100%{height:8px}
-  50%{height:26px}
-}
-
-/* LISTENER */
+.play{background:#00cfff;color:#000;}
+.stop{background:#ff0033;color:#fff;}
 .listeners{
-  font-size:13px;
-  color:#ccc;
-  margin-top:6px;
+  margin-top:10px;
+  color:#aaa;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="player">
+  <img src="LOGOSTARS2.png" alt="RadioStars FM">
+  <div class="status" id="status">🔴 OFF AIR</div>
 
-  <!-- LOGO -->
-  <div class="logo">
-    <img src="LOGOSTARS2.png" alt="RadioStars FM">
-  </div>
+  <button class="play" onclick="playRadio()">▶ PLAY</button>
+  <button class="stop" onclick="stopRadio()">■ STOP</button>
 
-  <div class="slogan">Enjoy your Musik, Enjoy your Day</div>
-
-  <!-- PLAYER -->
-  <div class="player">
-    <div class="live">🔴 LIVE ON AIR</div>
-    <div class="info">Klik ▶ di player untuk mulai mendengarkan</div>
-
-    <!-- CENTOVACAST PLAYER -->
-    <div class="iframe-wrap">
-      <iframe
-        src="https://scg.streamingmurah.com:2199/system/player.html?pl=daniel5.pls"
-        width="100%"
-        height="80"
-        frameborder="0"
-        allow="autoplay"
-      ></iframe>
-    </div>
-
-    <!-- VISUAL DJ -->
-    <div class="equalizer">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-
-    <div class="listeners">
-      👥 Pendengar: <span id="listeners">10</span>
-    </div>
-  </div>
-
+  <div class="listeners">👥 Pendengar: <span id="listeners">10</span></div>
 </div>
 
+<audio id="radio" preload="none"></audio>
+
 <script>
-// Listener visual (dummy)
-let listeners=10;
+const radio = document.getElementById("radio");
+const statusText = document.getElementById("status");
+
+function playRadio(){
+  radio.src = "http://45.64.97.82:8114/stream";
+  radio.play().then(()=>{
+    statusText.innerText = "🔴 LIVE ON AIR";
+  }).catch(()=>{
+    statusText.innerText = "❌ Klik PLAY sekali lagi";
+  });
+}
+
+function stopRadio(){
+  radio.pause();
+  radio.src="";
+  statusText.innerText = "⏹ STOPPED";
+}
+
+// fake listeners
+let l=10;
 setInterval(()=>{
-  listeners+=Math.floor(Math.random()*5)-2;
-  if(listeners<10)listeners=10;
-  document.getElementById("listeners").innerText=listeners;
-},4000);
+  l += Math.floor(Math.random()*3)-1;
+  if(l<10)l=10;
+  document.getElementById("listeners").innerText=l;
+},3000);
 </script>
 
 </body>
