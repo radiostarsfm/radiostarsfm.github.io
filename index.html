@@ -172,14 +172,15 @@ const eqBars = document.querySelectorAll(".equalizer span");
 const listenersText = document.getElementById("listeners");
 
 function playRadio(){
-  if(!radio.src){
-    radio.src = "http://45.64.97.82:8114/stream";
-  }
+  // pakai PLS HTTPS
+  radio.src = "https://scg.streamingmurah.com:2199/tunein/daniel5.pls";
+
   radio.play().then(()=>{
-    statusText.innerText="🔴 LIVE Streaming";
+    statusText.innerText = "🔴 LIVE Streaming";
     eqBars.forEach(b=>b.style.opacity=1);
-  }).catch(()=>{
-    statusText.innerText="❌ Klik PLAY untuk mulai";
+  }).catch(err=>{
+    statusText.innerText = "❌ Browser memblokir audio";
+    console.error(err);
   });
 }
 
@@ -190,7 +191,7 @@ function stopRadio(){
   eqBars.forEach(b=>b.style.opacity=.2);
 }
 
-// Listener dinamis
+// Listener palsu
 let listeners=10;
 setInterval(()=>{
   listeners+=Math.floor(Math.random()*5)-2;
@@ -198,6 +199,7 @@ setInterval(()=>{
   listenersText.innerText=listeners;
 },4000);
 </script>
+
 
 </body>
 </html>
