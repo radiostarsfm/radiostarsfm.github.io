@@ -78,7 +78,7 @@ body{
   box-shadow:0 0 18px rgba(0,204,255,.6);
 }
 
-/* EQUALIZER DUMMY (visual DJ) */
+/* EQUALIZER (VISUAL SAJA) */
 .equalizer{
   display:flex;
   justify-content:center;
@@ -125,9 +125,9 @@ body{
   <!-- PLAYER -->
   <div class="player">
     <div class="live">🔴 LIVE ON AIR</div>
-    <div class="info">Klik tombol ▶ di bawah untuk mulai</div>
+    <div class="info">Klik ▶ di player untuk mulai mendengarkan</div>
 
-    <!-- CENTOVACAST PLAYER (HTTPS - PASTI BUNYI) -->
+    <!-- CENTOVACAST PLAYER -->
     <div class="iframe-wrap">
       <iframe
         src="https://scg.streamingmurah.com:2199/system/player.html?pl=daniel5.pls"
@@ -151,7 +151,7 @@ body{
 </div>
 
 <script>
-// Listener dummy (visual saja)
+// Listener visual (dummy)
 let listeners=10;
 setInterval(()=>{
   listeners+=Math.floor(Math.random()*5)-2;
