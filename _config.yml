@@ -1,0 +1,8 @@
+title: RadioStars FM
+description: Portal Berita & Radio Streaming
+theme: minima
+markdown: kramdown
+
+collections:
+  posts:
+    output: true
