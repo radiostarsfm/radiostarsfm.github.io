@@ -1,8 +1,9 @@
 
 ---
-layout: home
+layout: default
 title: Beranda
 ---
+
 
 # Selamat Datang di RadioStars FM
 
