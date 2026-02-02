@@ -5,9 +5,9 @@ title: Radio Live
 
 ## 🎧 RadioStars FM — Live Streaming
 
-Klik tombol di bawah untuk mendengarkan siaran langsung RadioStars FM.
+Klik tombol play di bawah untuk mendengarkan siaran langsung RadioStars FM.
 
-<audio controls autoplay style="width:100%;margin-top:20px;">
+<audio controls autoplay>
   <source src="http://45.64.97.82:8114/stream" type="audio/mpeg">
   Browser Anda tidak mendukung audio streaming.
 </audio>
