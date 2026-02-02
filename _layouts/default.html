@@ -34,26 +34,27 @@
 </head>
 <body>
 
-<header>
-  <img src="/LOGOSTARS2.png" alt="RadioStars FM">
+  <header class="site-header">
+    <img src="/assets/images/LOGOSTARS2.png" alt="RadioStars FM" class="site-logo">
 
-  <nav style="margin-top:20px;">
-    <a href="/" style="margin:0 10px;color:#00eaff;">Beranda</a>
-    <a href="/radio" style="margin:0 10px;color:#00eaff;">Radio Live</a>
-    <a href="/berita" style="margin:0 10px;color:#00eaff;">Berita</a>
-    <a href="/tentang" style="margin:0 10px;color:#00eaff;">Tentang</a>
-  </nav>
+    <nav class="site-nav">
+      <a href="/">Beranda</a>
+      <a href="/radio">Radio Live</a>
+      <a href="/berita">Berita</a>
+      <a href="/tentang">Tentang</a>
+    </nav>
 
-  <p style="margin-top:15px;">{{ site.description }}</p>
-</header>
+    <p class="site-tagline">Portal Berita & Radio Streaming</p>
+  </header>
 
-<main>
-  {{ content }}
-</main>
+  <main class="site-content">
+    {{ content }}
+  </main>
 
-<footer>
-  © {{ site.time | date: "%Y" }} RadioStars FM
-</footer>
+  <footer class="site-footer">
+    © {{ site.time | date: "%Y" }} RadioStars FM
+  </footer>
 
 </body>
+
 </html>
