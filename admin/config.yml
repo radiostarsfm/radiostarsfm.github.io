@@ -7,11 +7,11 @@ public_folder: "/assets/images"
 
 collections:
   - name: "posts"
-    label: "Artikel"
+    label: "Berita"
     folder: "_posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Judul", name: "title", widget: "string" }
       - { label: "Tanggal", name: "date", widget: "datetime" }
-      - { label: "Isi Artikel", name: "body", widget: "markdown" }
+      - { label: "Isi Berita", name: "body", widget: "markdown" }
