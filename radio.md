@@ -12,7 +12,7 @@ Siaran 24 Jam – Musik & Informasi
 Klik tombol play di bawah untuk mendengarkan siaran langsung RadioStars FM.
 
 <audio controls autoplay>
-  <source src="asv.alhastream.com:3010/radio" type="audio/mpeg">
+  <source src="http://asv.alhastream.com:3010/radio" type="audio/mpeg">
   Browser Anda tidak mendukung audio streaming.
 </audio>
 
