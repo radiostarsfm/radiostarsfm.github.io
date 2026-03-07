@@ -4,7 +4,7 @@ title: Radio Live
 ---
 
 ## 🎧 RadioStars FM — Live Streaming
-![RadioStars FM](/assets/images/LOGOSTARS2.png)
+![RadioStars FM](/assets/images/LOGOSTARS2..png)
 
 🔴 **LIVE ON AIR**  
 Siaran 24 Jam – Musik & Informasi
