@@ -136,7 +136,7 @@
   </main>
 
   <footer class="site-footer">
-    © 2026 RadioStars FM
+    © 2020 RadioStars FM
   </footer>
 
   <script>
@@ -166,7 +166,7 @@
           playBtn.classList.remove('offline');
       }
 
-      // Deteksi error HANYA jika terputus saat sedang play
+      // Deteksi error jika stream tiba-tiba putus di tengah jalan
       audioEl.addEventListener('error', function() {
           if (isPlaying) {
               setOfflineStatus();
@@ -177,7 +177,7 @@
           if (isPlaying) {
               // Mode Stop/Pause Manual
               audioEl.pause();
-              audioEl.removeAttribute('src'); // Hentikan download stream di background
+              audioEl.removeAttribute('src'); // Putus koneksi agar tidak buang kuota
               audioEl.load();
               
               playIcon.className = "fa-solid fa-play";
@@ -185,12 +185,12 @@
               isPlaying = false;
           } else {
               // Mode Play
-              setOnlineStatus(); // Kembalikan warna UI
+              setOnlineStatus(); // Reset warna UI ke Live
               playIcon.className = "fa-solid fa-spinner fa-spin"; // Efek loading sebentar
               playIcon.style.marginLeft = "0";
 
-              // Cache buster: Tambahkan timestamp agar browser tidak memuat buffer lama
-              audioEl.src = streamUrl + "?nocache=" + new Date().getTime();
+              // Gunakan URL murni tanpa cache-buster agar tidak ditolak server
+              audioEl.src = streamUrl;
               audioEl.load();
 
               audioEl.play().then(() => {
@@ -198,8 +198,8 @@
                   isPlaying = true;
               }).catch(function(error) {
                   console.error("Stream gagal dimuat:", error);
+                  // Ubah UI jadi abu-abu tanpa memunculkan alert
                   setOfflineStatus();
-                  alert("Server streaming sedang offline atau gangguan jaringan.");
               });
           }
       }
