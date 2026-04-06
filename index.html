@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Radio Live | RadioStars FM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      margin: 0; font-family: Arial, sans-serif; background: #0b132b; color: #ffffff; text-align: center;
+    }
+
+    .site-header { padding: 40px 20px 20px 20px; }
+    .site-logo { max-width: 280px; width: 100%; height: auto; margin-bottom: 10px; }
+    .site-content { padding: 10px 20px 40px 20px; }
+    .site-footer {
+      margin-top: 40px; padding: 20px; font-size: 13px; opacity: 0.6;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* KARTU PEMUTAR RADIO */
+    .radio-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; box-sizing: border-box; }
+    .player-container {
+        background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+        border-radius: 24px; padding: 40px 30px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        width: 100%; max-width: 360px; text-align: center; border: 1px solid #333;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #ffffff;
+        z-index: 10; position: relative;
+    }
+
+    .live-indicator {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: rgba(255, 0, 68, 0.1); color: #ff0044;
+        padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700;
+        letter-spacing: 1px; margin-bottom: 25px; border: 1px solid #ff0044;
+        transition: all 0.3s ease;
+    }
+    .pulse-dot {
+        width: 8px; height: 8px; background-color: #ff0044; border-radius: 50%;
+        animation: pulse 1.5s infinite; transition: all 0.3s ease;
+    }
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(255, 0, 68, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(255, 0, 68, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 0, 68, 0); }
+    }
+    .live-indicator.offline { background: rgba(136, 136, 136, 0.1); color: #888888; border: 1px solid #888888; }
+    .live-indicator.offline .pulse-dot { background-color: #888888; animation: none; box-shadow: none; }
+    
+    .play-btn.offline { background: #555555; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); }
+    .play-btn.offline:hover { background: #666666; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); }
+
+    h2.radio-title { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: 0.5px; line-height: 1.2; }
+    p.radio-subtitle { color: #a0a0a0; font-size: 14px; margin-top: 8px; margin-bottom: 35px; }
+
+    .play-btn {
+        background: #1db954; color: white; border: none; width: 90px; height: 90px;
+        border-radius: 50%; font-size: 35px; cursor: pointer; transition: all 0.3s ease;
+        display: flex; justify-content: center; align-items: center; margin: 0 auto;
+        box-shadow: 0 8px 25px rgba(29, 185, 84, 0.4);
+    }
+    .play-btn:hover { transform: scale(1.08); background: #1ed760; box-shadow: 0 12px 30px rgba(29, 185, 84, 0.6); }
+    .play-btn:active { transform: scale(0.95); }
+
+    .volume-wrapper { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 30px; padding: 0 10px; }
+    .volume-wrapper i { color: #a0a0a0; font-size: 18px; width: 20px; transition: color 0.3s ease; }
+    .volume-slider { -webkit-appearance: none; width: 70%; height: 6px; background: #444; border-radius: 5px; outline: none; }
+    .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%;
+        background: #1db954; cursor: pointer; box-shadow: 0 0 10px rgba(29, 185, 84, 0.5); transition: transform 0.2s;
+    }
+    .volume-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+    .divider { height: 1px; background: #333; margin: 30px 0 25px 0; }
+    .social-title { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: block; }
+    .social-menu { display: flex; gap: 15px; justify-content: center; }
+    .social-btn {
+        display: flex; align-items: center; gap: 8px; text-decoration: none; padding: 12px 20px;
+        border-radius: 12px; font-size: 14px; font-weight: 600; color: white; transition: all 0.2s ease; flex: 1; justify-content: center;
+    }
+    .social-btn:hover { filter: brightness(1.2); transform: translateY(-2px); text-decoration: none; }
+    .btn-tiktok { background: #000000; border: 1px solid #333; }
+    .btn-spotify { background: #1db954; }
+
+    /* =========================================
+       CSS GALERI SLIDER BARU
+       ========================================= */
+    .gallery-section {
+        margin-top: 40px; /* Jarak dari kotak radio di atasnya */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .gallery-header {
+        font-size: 12px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 600;
+    }
+
+    .slider-container {
+        width: 100%;
+        max-width: 360px; /* Sama persis dengan lebar kotak radio */
+        height: 220px; /* Ketinggian foto */
+        border-radius: 24px; /* Sudut melengkung yang sama */
+        overflow: hidden; /* Sembunyikan foto yang geser keluar kotak */
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        border: 1px solid #333; /* Border yang sama dengan kotak radio */
+        position: relative;
+        background: #1e1e1e;
+    }
+
+    .slider-track {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        transition: transform 0.6s ease-in-out; /* Animasi geser mulus */
+    }
+
+    .slider-track img {
+        min-width: 100%; /* Memaksa setiap gambar selebar kotak */
+        height: 100%;
+        object-fit: cover; /* Agar gambar tidak gepeng, otomatis terpotong rapi */
+        display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <img src="/assets/images/LOGOSTARS2.png" alt="RadioStars FM" class="site-logo">
+  </header>
+
+  <main class="site-content">
+    
+    <div class="radio-wrapper">
+        <div class="player-container">
+            <div class="live-indicator" id="statusIndicator">
+                <div class="pulse-dot"></div>
+                <span id="statusText">LIVE ON AIR</span>
+            </div>
+            <h2 class="radio-title">RadioStars FM</h2>
+            <p class="radio-subtitle">Musik & Informasi Terbaik</p>
+
+            <audio id="radioStream" preload="none"></audio>
+
+            <button class="play-btn" id="playBtn" onclick="togglePlay()">
+                <i class="fa-solid fa-play" id="playIcon" style="margin-left: 5px;"></i>
+            </button>
+
+            <div class="volume-wrapper">
+                <i class="fa-solid fa-volume-high" id="volIcon"></i>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="1">
+            </div>
+
+            <div class="divider"></div>
+
+            <span class="social-title">Temukan Kami Di</span>
+            <div class="social-menu">
+                <a href="https://www.tiktok.com/@enjoyourmusicenjoyourday?_r=1&_t=ZS-95FNjkQfzNq" target="_blank" class="social-btn btn-tiktok">
+                    <i class="fa-brands fa-tiktok"></i> TikTok
+                </a>
+                <a href="https://open.spotify.com/user/31joxxelshtteu7z5ckyh7yxrrei?si=LWqDMGi0RNibevbhPMWpEw" target="_blank" class="social-btn btn-spotify">
+                    <i class="fa-brands fa-spotify"></i> Spotify
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="gallery-section">
+        <div class="gallery-header">Studio & Penyiar Kami</div>
+        
+        <div class="slider-container">
+            <div class="slider-track" id="sliderTrack">
+                <img src="/assets/images/foto_studio1.jpg" alt="Penyiar 1">
+                <img src="/assets/images/foto_studio2.jpg" alt="Penyiar 2">
+                <img src="/assets/images/foto_studio3.jpg" alt="Penyiar 3">
+                <img src="/assets/images/foto_studio4.jpg" alt="Penyiar 4">
+            </div>
+        </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    © 2020 RadioStars FM
+  </footer>
+
+  <script>
+      // ==========================================
+      // LOGIKA PEMUTAR RADIO
+      // ==========================================
+      const audioEl = document.getElementById('radioStream');
+      const playBtn = document.getElementById('playBtn');
+      const playIcon = document.getElementById('playIcon');
+      const volumeSlider = document.getElementById('volumeSlider');
+      const volIcon = document.getElementById('volIcon');
+      const statusIndicator = document.getElementById('statusIndicator');
+      const statusText = document.getElementById('statusText');
+      
+      const streamUrl = "https://asv.alhastream.com:3010/radio";
+      let isPlaying = false;
+
+      function setOfflineStatus() {
+          statusIndicator.classList.add('offline');
+          statusText.innerText = "OFFLINE STREAM";
+          playBtn.classList.add('offline');
+          playIcon.className = "fa-solid fa-play";
+          playIcon.style.marginLeft = "5px"; 
+          isPlaying = false;
+      }
+
+      function setOnlineStatus() {
+          statusIndicator.classList.remove('offline');
+          statusText.innerText = "LIVE ON AIR";
+          playBtn.classList.remove('offline');
+      }
+
+      audioEl.addEventListener('error', function() {
+          if (isPlaying) { setOfflineStatus(); }
+      });
+
+      function togglePlay() {
+          if (isPlaying) {
+              audioEl.pause();
+              audioEl.removeAttribute('src'); 
+              audioEl.load();
+              playIcon.className = "fa-solid fa-play";
+              playIcon.style.marginLeft = "5px"; 
+              isPlaying = false;
+          } else {
+              setOnlineStatus(); 
+              playIcon.className = "fa-solid fa-spinner fa-spin"; 
+              playIcon.style.marginLeft = "0";
+
+              audioEl.src = streamUrl;
+              audioEl.load();
+
+              audioEl.play().then(() => {
+                  playIcon.className = "fa-solid fa-pause";
+                  isPlaying = true;
+              }).catch(function(error) {
+                  console.error("Stream gagal dimuat:", error);
+                  setOfflineStatus();
+              });
+          }
+      }
+
+      volumeSlider.addEventListener('input', function() {
+          audioEl.volume = this.value;
+          if (this.value == 0) {
+              volIcon.className = 'fa-solid fa-volume-xmark';
+              volIcon.style.color = '#ff0044';
+          } else if (this.value < 0.5) {
+              volIcon.className = 'fa-solid fa-volume-low';
+              volIcon.style.color = '#a0a0a0';
+          } else {
+              volIcon.className = 'fa-solid fa-volume-high';
+              volIcon.style.color = '#a0a0a0';
+          }
+      });
+
+      // ==========================================
+      // LOGIKA GALERI SLIDER OTOMATIS
+      // ==========================================
+      const track = document.getElementById('sliderTrack');
+      const slides = track.querySelectorAll('img');
+      let currentSlide = 0;
+      const totalSlides = slides.length;
+
+      // Fungsi untuk menggeser gambar setiap 3.5 detik
+      setInterval(() => {
+          if(totalSlides > 1) { // Pastikan fotonya lebih dari 1 agar bisa geser
+              currentSlide = (currentSlide + 1) % totalSlides;
+              // Geser track ke kiri sebesar 100% dari lebar per foto
+              track.style.transform = `translateX(-${currentSlide * 100}%)`;
+          }
+      }, 3500); // 3500 ms = 3,5 detik. Bisa Anda ganti sesuai selera.
+  </script>
+
+</body>
+</html>
