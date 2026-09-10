@@ -338,7 +338,7 @@ function startListenerCount() {
     }
 
     // Angka awal
-    listeners = Math.floor(Math.random() * 14) + 8;
+    listeners = Math.floor(Math.random() * 19) + 9;
 
     listenerCount.textContent = listeners;
     listenerCountBox.style.display = 'flex';
@@ -375,11 +375,13 @@ function startListenerCount() {
         listenerCount.textContent = listeners;
 
         // Jadwalkan perubahan berikutnya
-        listenerTimer = setTimeout(updateListenerNumber, 5000);
+        const delay = Math.floor(Math.random() * 60000) + 30000;
+listenerTimer = setTimeout(updateListenerNumber, delay);
     }
 
     // Mulai perubahan setelah 5 detik
-    listenerTimer = setTimeout(updateListenerNumber, 5000);
+    const delay = Math.floor(Math.random() * 60000) + 30000;
+listenerTimer = setTimeout(updateListenerNumber, delay);
 }
 
 
