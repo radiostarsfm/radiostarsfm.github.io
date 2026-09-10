@@ -136,13 +136,18 @@
         display: block;
     }
 
-    .listener-count {
-    display: inline-flex;
+.listener-count {
+    display: none;
     align-items: center;
-    gap: 5px;
-    margin-top: 8px;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 18px;
     font-size: 14px;
     font-weight: 600;
+}
+
+.listener-count i {
+    font-size: 13px;
 }
 
 #listenerCount {
@@ -178,8 +183,9 @@
                 <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="1">
             </div>
 
-            <div class="listener-count">
-            👥 <span id="listenerCount">12</span> pendengar
+            <div class="listener-count" id="listenerCountBox">
+            <i class="fa-solid fa-users"></i>
+            <span id="listenerCount">0</span> pendengar
             </div>
           
             <div class="divider"></div>
@@ -231,6 +237,11 @@
       const statusText = document.getElementById('statusText');
       
       const streamUrl = "https://asv.alhastream.com:3010/radio";
+    const listenerCountBox = document.getElementById('listenerCountBox');
+const listenerCount = document.getElementById('listenerCount');
+
+let listenerTimer = null;
+let listeners = 0;
       let isPlaying = false;
 
       function setOfflineStatus() {
@@ -240,6 +251,8 @@
           playIcon.className = "fa-solid fa-play";
           playIcon.style.marginLeft = "5px"; 
           isPlaying = false;
+
+          stopListenerCount();
       }
 
       function setOnlineStatus() {
@@ -260,6 +273,9 @@
               playIcon.className = "fa-solid fa-play";
               playIcon.style.marginLeft = "5px"; 
               isPlaying = false;
+
+      // Sembunyikan jumlah pendengar
+              stopListenerCount();
           } else {
               setOnlineStatus(); 
               playIcon.className = "fa-solid fa-spinner fa-spin"; 
@@ -271,6 +287,9 @@
               audioEl.play().then(() => {
                   playIcon.className = "fa-solid fa-pause";
                   isPlaying = true;
+                
+    // Tampilkan jumlah pendengar setelah radio benar-benar play
+                  startListenerCount();
               }).catch(function(error) {
                   console.error("Stream gagal dimuat:", error);
                   setOfflineStatus();
@@ -309,42 +328,49 @@
           }
       }, 3500); // 3500 ms = 3,5 detik. Bisa Anda ganti sesuai selera.
 
-(function () {
-    const listenerElement = document.getElementById("listenerCount");
+    
+    // fungsi count pendengar
+    
+function startListenerCount() {
+    // Angka awal acak antara 5 sampai 18
+    listeners = Math.floor(Math.random() * 14) + 5;
 
-    if (!listenerElement) return;
-
-    let listeners = Math.floor(Math.random() * 15) + 8;
+    listenerCount.textContent = listeners;
+    listenerCountBox.style.display = 'flex';
 
     function updateListeners() {
-        const change = Math.floor(Math.random() * 5) - 2;
+        // Perubahan antara -2 sampai +3
+        const change = Math.floor(Math.random() * 6) - 2;
 
         listeners += change;
 
-        if (listeners < 1) {
-            listeners = 1;
-        }
+        // Batas minimal dan maksimal
+        if (listeners < 1) listeners = 1;
+        if (listeners > 50) listeners = 50;
 
-        if (listeners > 50) {
-            listeners = 50;
-        }
+        listenerCount.textContent = listeners;
 
-        listenerElement.textContent = listeners;
+        // Jadwal berikutnya 8-25 detik
+        listenerTimer = setTimeout(updateListeners, 
+            Math.floor(Math.random() * 17000) + 8000
+        );
     }
 
-    listenerElement.textContent = listeners;
+    listenerTimer = setTimeout(updateListeners, 
+        Math.floor(Math.random() * 17000) + 8000
+    );
+}
 
-    function scheduleUpdate() {
-        const delay = Math.floor(Math.random() * 17000) + 8000;
-
-        setTimeout(function () {
-            updateListeners();
-            scheduleUpdate();
-        }, delay);
+function stopListenerCount() {
+    if (listenerTimer) {
+        clearTimeout(listenerTimer);
+        listenerTimer = null;
     }
 
-    scheduleUpdate();
-})();
+    listenerCountBox.style.display = 'none';
+    listeners = 0;
+}
+    
   </script>
 
 </body>
