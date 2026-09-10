@@ -332,42 +332,65 @@ let listeners = 0;
     // fungsi count pendengar
     
 function startListenerCount() {
-    // Angka awal acak antara 5 sampai 18
-    listeners = Math.floor(Math.random() * 14) + 5;
+    // Jika sudah berjalan, jangan membuat timer baru
+    if (listenerTimer !== null) {
+        return;
+    }
+
+    // Angka awal
+    listeners = Math.floor(Math.random() * 14) + 8;
 
     listenerCount.textContent = listeners;
     listenerCountBox.style.display = 'flex';
 
-    function updateListeners() {
-        // Perubahan antara -2 sampai +3
-        const change = Math.floor(Math.random() * 6) - 2;
+    function updateListenerNumber() {
+
+        // Pastikan jumlah pendengar selalu berubah
+        let change;
+
+        if (Math.random() < 0.5) {
+            change = 1;
+        } else {
+            change = -1;
+        }
+
+        // Sesekali perubahan 2-3 orang
+        if (Math.random() < 0.25) {
+            change *= Math.floor(Math.random() * 2) + 2;
+        }
 
         listeners += change;
 
-        // Batas minimal dan maksimal
-        if (listeners < 1) listeners = 1;
-        if (listeners > 50) listeners = 50;
+        // Batas minimum
+        if (listeners < 1) {
+            listeners = 1;
+        }
 
+        // Batas maksimum
+        if (listeners > 50) {
+            listeners = 50;
+        }
+
+        // Tampilkan angka baru
         listenerCount.textContent = listeners;
 
-        // Jadwal berikutnya 8-25 detik
-        listenerTimer = setTimeout(updateListeners, 
-            Math.floor(Math.random() * 17000) + 8000
-        );
+        // Jadwalkan perubahan berikutnya
+        listenerTimer = setTimeout(updateListenerNumber, 5000);
     }
 
-    listenerTimer = setTimeout(updateListeners, 
-        Math.floor(Math.random() * 17000) + 8000
-    );
+    // Mulai perubahan setelah 5 detik
+    listenerTimer = setTimeout(updateListenerNumber, 5000);
 }
 
+
 function stopListenerCount() {
-    if (listenerTimer) {
+    if (listenerTimer !== null) {
         clearTimeout(listenerTimer);
         listenerTimer = null;
     }
 
     listenerCountBox.style.display = 'none';
+    listenerCount.textContent = '0';
     listeners = 0;
 }
     
