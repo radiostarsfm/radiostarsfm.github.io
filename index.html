@@ -308,6 +308,43 @@
               track.style.transform = `translateX(-${currentSlide * 100}%)`;
           }
       }, 3500); // 3500 ms = 3,5 detik. Bisa Anda ganti sesuai selera.
+
+(function () {
+    const listenerElement = document.getElementById("listenerCount");
+
+    if (!listenerElement) return;
+
+    let listeners = Math.floor(Math.random() * 15) + 8;
+
+    function updateListeners() {
+        const change = Math.floor(Math.random() * 5) - 2;
+
+        listeners += change;
+
+        if (listeners < 1) {
+            listeners = 1;
+        }
+
+        if (listeners > 50) {
+            listeners = 50;
+        }
+
+        listenerElement.textContent = listeners;
+    }
+
+    listenerElement.textContent = listeners;
+
+    function scheduleUpdate() {
+        const delay = Math.floor(Math.random() * 17000) + 8000;
+
+        setTimeout(function () {
+            updateListeners();
+            scheduleUpdate();
+        }, delay);
+    }
+
+    scheduleUpdate();
+})();
   </script>
 
 </body>
